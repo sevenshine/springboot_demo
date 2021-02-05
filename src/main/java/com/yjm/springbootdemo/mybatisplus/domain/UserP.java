@@ -1,11 +1,28 @@
-package com.yjm.springbootdemo.domain;
+package com.yjm.springbootdemo.mybatisplus.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class User {
+/**
+ * @TableName 用来指定数据库表名
+ * value:数据库表名称
+ * schema：数据库名
+ */
+@TableName(value = "user", schema = "study_test")
+public class UserP {
+
+    /**
+     * @TableId 指定字段的属性,主键
+     * 数据中的表设计的是自增,type需要对应进行配置
+     * --》这点和mybatis不同，plus中需要直接指明自增字段，不然insert后的user对象中不会反回这个自增的id
+     */
+    @TableId(value="id",type= IdType.AUTO)
     private int id;
 
     private String name;
@@ -14,6 +31,7 @@ public class User {
 
     private int age;
 
+    @TableField(value="create_time")
     private Date createTime;
 
     public int getId() {
@@ -53,20 +71,6 @@ public class User {
     }
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * 对象中，需要声明无参构造器
-     */
-    public User(){super();}
-
-    public User(int id, String name, String phone, int age, Date createTime) {
-        super();
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.age = age;
         this.createTime = createTime;
     }
 }
